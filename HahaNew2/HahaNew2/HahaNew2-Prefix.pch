@@ -1,0 +1,116 @@
+//
+// Prefix header for all source files of the 'HahaDemo' target in the 'HahaDemo' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#endif
+
+
+
+//added by Alex Lee
+//======================================
+// Log utils
+//======================================
+
+
+// MXLog:   in debug mode it displays more detail messages,
+//          in release mode it display nothing
+#ifdef DEBUG
+#define MXLog(fmt, ...) NSLog((@"[%s] [Line:%d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define MXLog(fmt, ...) do{} while(0)
+#endif
+
+// MXALog:  always log messages
+//          in debug mode it does the same as MXLog
+//          in release mode it does the same as NSLog
+#ifdef DEBUG
+#define MXALog  MXLog
+#else
+#define MXALog  NSLog
+#endif
+
+
+// MXAssertDebug:   only assert in debug mode, logs more detail messages than NSAssert
+#ifdef DEBUG
+#define MXAssertDebug(COND, fmt, ...) NSAssert(COND, (@"[%s] [Line:%d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define MXAssertDebug(COND, fmt, ...) do{} while(0)
+#endif
+
+// MXAssert:    assert always
+//              in debug mode, it does as MXAssertDebug,
+//              in release mode, it does as NSAssert
+#ifdef DEBUG
+#define MXAssert MXAssertDebug
+#else
+#define MXAssert NSAssert
+#endif
+
+// MXParameterAssert:
+#define MXParameterAssert(COND) MXAssert(COND, @"Invalid parameter not satisfying: %s", #COND)
+
+
+
+
+// 纪录异常信息， debug下执行NSLog， release下无输出
+// 参数类型 NSException
+#define MXLogException(E) MXLog(@"Caught '%@' \nreason:'%@',\nuserInfo:'%@'.",[E name],[E reason],[E userInfo])
+
+// 纪录错误信息， debug下执行NSLog， release下无输出
+// 参数类型 NSError
+#define MXLogError(E) MXLog(@"[ERROR]: '%@', \n'%@', \n'%@'.",[E localizedDescription],[E localizedFailureReason],[E localizedRecoveryOptions])
+
+//判断对象是否为空或者是class的子类
+#define MXAssertNilOrIsKindOfClass(OBJ,CLASS) MXAssertDebug(((OBJ == nil) || ((OBJ != nil) && [OBJ isKindOfClass:[CLASS class]])), @"Variable %s must either be nil or be kind of %s class.", (#OBJ), (#CLASS))
+
+#define MXLogRect(frame) MXLog(@"frame origin:[%f, %f], size:[%f, %f]", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height)
+#define MXLogSize(size) MXLog(@"size.width=%f, size.height=%f", size.width, size.height);
+
+//======================================
+// utils
+//======================================
+
+//return MXAppDelegate
+//#define AppDelegate ((MXAppDelegate *)([UIApplication sharedApplication].delegate))
+
+// release and set to nil
+#define MXReleaseAndNil(var) do{[var release]; var = nil;} while(0)
+
+
+// compare system os version, argument type is NSString
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:(v) options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:(v) options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_NOT_LESS_THAN(v)  ([[[UIDevice currentDevice] systemVersion] compare:(v) options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:(v) options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_NOT_GREATER_THAN(v)          ([[[UIDevice currentDevice] systemVersion] compare:(v) options:NSNumericSearch] != NSOrderedDescending)
+
+
+//判断一个NSString是否为nil或者是否为空白字符和换行符
+#define isEmptyString(s)  (((s) == nil) || ([(s) stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0))
+
+#define RGBAColor(RGBAValue)      [UIColor colorWithRed:(((RGBAValue)>>24)&0xFF)/255.0 green:(((RGBAValue)>>16)&0xFF)/255.0 blue:(((RGBAValue)>>8)&0xFF)/255.0 alpha:((RGBAValue)&0xFF)/255.0]
+#define RGBColor(RGBValue)         [UIColor colorWithRed:(((RGBValue)>>24)&0xFF)/255.0 green:(((RGBValue)>>16)&0xFF)/255.0 blue:(((RGBValue)>>8)&0xFF)/255.0 alpha:1.0]
+
+#define MXCOLOR(c) [UIColor colorWithRed:((c>>24)&0xFF)/255.0 green:((c>>16)&0xFF)/255.0 blue:((c>>8)&0xFF)/255.0 alpha:((c)&0xFF)/255.0]
+
+#define ARGBColor(a, r, g, b)   [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+
+#define degreesToRadians(degrees)    ((degrees) * M_PI / 180)
+#define radiansToDegrees(radians)    ((radians) * 180 / M_PI)
+/**********************hot new  haha*********************/
+#define FONT_SIZE 14.0f
+
+#define _PAGE_SIZE 20
+
+
+#define _DRAG_MARGIN 15
+
